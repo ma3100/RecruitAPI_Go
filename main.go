@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	commonLogic "./commonLogic"
 	recruitapi "./recruitapi"
 )
 
@@ -24,10 +25,17 @@ type resultResponse struct {
 }
 
 func main() {
-	fmt.Println("hogefuga201812232")
+	fmt.Println("hogefuga20181227")
+	parameterQuery := make(map[string]string)
+	parameterQuery["name"] = "肉"
+	parameterQuery["address"] = "東京"
 
-	var result = recruitapi.GetLargeServiceArea("", "json")
-	for _, item := range result.Results.LargeServiceArea {
+	var queryString = commonLogic.NewSortedQuery(parameterQuery)
+	fmt.Println(queryString.String())
+
+	var result = recruitapi.GetBudget("", "json")
+	//	var result = recruitapi.GetGourmet("", "json", queryString.String())
+	for _, item := range result.Results.Budget {
 		fmt.Printf("Name : %s, Code = %s\n", item.Name, item.Code)
 	}
 }
