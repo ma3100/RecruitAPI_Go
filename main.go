@@ -25,7 +25,7 @@ type resultResponse struct {
 }
 
 func main() {
-	fmt.Println("hogefuga20181227")
+	fmt.Println("hogefuga20190103")
 	parameterQuery := make(map[string]string)
 	parameterQuery["name"] = "肉"
 	parameterQuery["address"] = "東京"
@@ -33,9 +33,9 @@ func main() {
 	var queryString = commonLogic.NewSortedQuery(parameterQuery)
 	fmt.Println(queryString.String())
 
-	var result = recruitapi.GetBudget("", "json")
+	var result = recruitapi.GetGenre("", "json")
 	//	var result = recruitapi.GetGourmet("", "json", queryString.String())
-	for _, item := range result.Results.Budget {
+	for _, item := range result.Results.Genre {
 		fmt.Printf("Name : %s, Code = %s\n", item.Name, item.Code)
 	}
 }

@@ -3,9 +3,8 @@ package recruitapi
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"log"
-	"net/http"
+
+	commonLogic "../commonLogic"
 )
 
 type resultServiceAreaResponse struct {
@@ -28,22 +27,11 @@ type resultServiceAreaResponse struct {
 func GetServiceArea(apiKey string, format string) resultServiceAreaResponse {
 	url := "http://webservice.recruit.co.jp/hotpepper/service_area/v1/?key=" + apiKey + "&format=" + format
 
-	client := &http.Client{}
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	res, err := client.Do(req)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer res.Body.Close()
-	byteArray, _ := ioutil.ReadAll(res.Body)
+	byteArray := commonLogic.ExecuteGetRequest(url)
 	fmt.Println(string(byteArray))
 
 	data := resultServiceAreaResponse{}
-	err = json.Unmarshal(byteArray, &data)
+	err := json.Unmarshal(byteArray, &data)
 	if err != nil {
 		fmt.Println(err)
 	}

@@ -3,9 +3,8 @@ package recruitapi
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"log"
-	"net/http"
+
+	commonLogic "../commonLogic"
 )
 
 type resultShopResponse struct {
@@ -33,22 +32,11 @@ type resultShopResponse struct {
 func GetShop(apiKey string, format string, parameterString string) resultShopResponse {
 	url := "http://webservice.recruit.co.jp/hotpepper/shop/v1/?key=" + apiKey + "&format=" + format + "&" + parameterString
 
-	client := &http.Client{}
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	res, err := client.Do(req)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer res.Body.Close()
-	byteArray, _ := ioutil.ReadAll(res.Body)
+	byteArray := commonLogic.ExecuteGetRequest(url)
 	fmt.Println(string(byteArray))
 
 	data := resultShopResponse{}
-	err = json.Unmarshal(byteArray, &data)
+	err := json.Unmarshal(byteArray, &data)
 	if err != nil {
 		fmt.Println(err)
 	}
